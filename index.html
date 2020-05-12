@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        var type;
+        var value;
+        var outputval=[];
+        const inputval = "#exmple || @name && user_email"
+        var result = inputval.split(" ");
+
+//for intent #
+
+        result.forEach(element =>{
+       if(element.match("#")){
+          var ashvalue = element.split("#");
+          type ="intent"
+          value = ashvalue[1];  
+       }
+        })
+       var objash={type,value};
+       outputval.push(objash);
+
+ //for operator ||
+
+        var outputOR = result.filter(mark => mark == "||");
+        if(outputOR[0]=="||"){
+           type='operator';
+           value='OR';
+       }
+       var objOR={type,value};
+       outputval.push(objOR);
+
+//for operator entity
+
+       result.forEach(element => {
+    if(element.match("@")){
+          var at = element.split("@");
+          type ="entity";
+          value = at[1];  
+       }    
+  });
+  var objat ={type,value};
+       outputval.push(objat);
+
+       //for operator &&
+
+       var outputAND = result.filter(mark => mark == "&&");
+        if(outputAND[0]=="&&"){
+           type='operator';
+           value='AND';
+       }
+       var objAND={type,value};
+       outputval.push(objAND);
+     
+     //for operator variables
+       for(var i=0; i<result.length;i++){
+           if(!(result[i].match("#") || result[i].match("@"))){
+               if(!(result[i]=="||" || result[i]=="&&")){
+                   type='varialble';
+                   value=result[i];
+               }
+           }
+       }
+       var objvariable ={type,value};
+       outputval.push(objvariable);
+       
+
+ 
+       console.log(outputval);
+
+
+        
+    </script>
+    </body>
+    </html>
